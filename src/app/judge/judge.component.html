@@ -1,3 +1,72 @@
-<p>
-  judge works!
-</p>
+<mat-card-header>
+  <mat-card-title>
+    <h4 style="padding:15px">Phỏng vấn</h4>
+  </mat-card-title>
+
+  <mat-card-subtitle>
+  </mat-card-subtitle>
+</mat-card-header>
+
+<mat-card-content>
+  <div class="example-container ">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="position">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 50px"> STT </th>
+        <td class="tdh" mat-cell *matCellDef="let element;let i = index" [style.color]="element.role=='admin'?'white':''">{{i+1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 16%;"> Họ Tên </th>
+        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="studentId">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> Mã sinh viên </th>
+        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''"> {{element.studentId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="exScore">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> Điểm thi </th>
+        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''"> {{element.playId?element.playId.totalScore:0}} </td>
+      </ng-container>
+      <ng-container matColumnDef="interviewScore">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> Điểm phỏng vấn </th>
+        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''">{{element.playId?element.playId.interviewScore:0}} </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> Tình trạng </th>
+        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.playId? getStyle(element.playId):''"> {{element.playId?checkStatus(element.playId):'Chưa thi'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="online">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> Online </th>
+        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''"> {{element.isOnline==true?'Online':'Offline'}} </td>
+      </ng-container>
+      <ng-container cdkColumnDef="action">
+        <th class="thhead" mat-header-cell *matHeaderCellDef>
+          Action
+        </th>
+        <td class="tdh" mat-cell *matCellDef="let element">
+
+          <button [disabled]="element.playId? getBtnDisable(element.playId): true" mat-mini-fab (click)="showDialog(element,'interview');">
+            <mat-icon style="color: white">{{element.isLocked==true?'lock_open':'lock'}}</mat-icon>
+          </button>
+
+        </td>
+
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;let element" [style.color]="element.playId? getStyle(element.playId):'red'"
+        [style.background-color]="getRow(element)"></tr>
+    </table>
+    <!-- element.role=='admin'?{background-color:'green'}:{} -->
+  </div>
+  <div>
+    <button mat-button (click)='Filter(true)' style="position: absolute;background-color: orangered;color: white">Đã thi</button>
+    <button mat-button (click)='Filter(false)' style="position: absolute;background-color: orange;color: white;left: 150px;">Chưa thi</button>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+
+
+</mat-card-content>
