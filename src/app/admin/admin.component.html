@@ -30,15 +30,20 @@
           <mat-icon mat-list-icon>group</mat-icon>
           <p class="mb-0 mx-2">Quản lý người dùng</p>
         </mat-list-item>
-        <mat-divider></mat-divider>
-        <h3 mat-subheader>Quản lý câu hỏi</h3>
         <mat-list-item routerLink="/admin/competitive-manager" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
           <mat-icon mat-list-icon>style</mat-icon>
           <p class="mb-0 mx-2">Quản lý thí sinh</p>
         </mat-list-item>
+        <mat-divider></mat-divider>
+        <h3 mat-subheader>Quản lý câu hỏi</h3>
+
         <mat-list-item routerLink="/admin/question-manager" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
           <mat-icon mat-list-icon>ballot</mat-icon>
-          <p class="mb-0 mx-2">Quản lý câu hỏi</p>
+          <p class="mb-0 mx-2">Câu hỏi trắc nghiệm</p>
+        </mat-list-item>
+        <mat-list-item routerLink="/admin/problem-manager" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon mat-list-icon>code</mat-icon>
+          <p class="mb-0 mx-2">Câu hỏi lập trình</p>
         </mat-list-item>
       </mat-list>
     </mat-drawer>

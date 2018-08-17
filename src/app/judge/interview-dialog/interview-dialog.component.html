@@ -9,9 +9,14 @@
           <input (ngModelChange)="changeJudgeName($event)" matInput placeholder="Người phỏng vấn" [formControl]="judgeName" required>
           <mat-error *ngIf="judgeName.invalid">Bạn phải điền tên người phỏng vấn</mat-error>
         </mat-form-field>
-        <mat-form-field class="offset-4 col-md-2">
-          <input (ngModelChange)="changeScore($event)" type="number" matInput placeholder="Điểm " [formControl]="score" required>
+        <mat-form-field appearance="outline" class="offset-3 col-2" style="color: red">
+          <mat-label>Điểm phỏng vấn</mat-label>
+          <input max="100" min="0" (ngModelChange)="changeScore($event)" type="number" matInput placeholder="Điểm " [formControl]="score"
+            required>
           <mat-error *ngIf="score.invalid">Bạn phải nhập điểm phỏng vấn</mat-error>
+          <mat-hint>
+            Điểm từ 0 đến 100
+          </mat-hint>
         </mat-form-field>
       </div>
 

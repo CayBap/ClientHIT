@@ -46,6 +46,7 @@ export class ProblemService {
   }
 
   public GetQuestions(page: number, limit: number) {
+    this.headers.set('x-access-token', localStorage.getItem('token'));
     let url = this.heroesUrl + '/?page=' + page + '&limit=' + limit;
     return this.http
       .get(url, { headers: this.headers })

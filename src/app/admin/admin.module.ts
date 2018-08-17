@@ -11,6 +11,8 @@ import { QuestionDialogComponent } from '../question-dialog/question-dialog.comp
 import { EditCompetitiveDialogComponent } from './competitive-manager/edit-competitive-dialog/edit-competitive-dialog.component';
 import { EditAddDialogComponent } from './question-manager/question-dialog/question-dialog.component';
 import { EditUserDialogComponent } from './user-manager/edit-user-dialog/edit-user-dialog.component';
+import { ProblemManagerComponent } from './problem-manager/problem-manager.component';
+import { ProblemDialogComponent } from './problem-manager/problem-dialog/problem-dialog.component';
 @NgModule({
   imports: [CommonModule, AdminRoutingModule, MatterialModule, FormsModule, ReactiveFormsModule],
   // tslint:disable-next-line:max-line-length
@@ -22,10 +24,19 @@ import { EditUserDialogComponent } from './user-manager/edit-user-dialog/edit-us
     QuestionDialogComponent,
     EditCompetitiveDialogComponent,
     EditAddDialogComponent,
-    EditUserDialogComponent
+    EditUserDialogComponent,
+    ProblemManagerComponent,
+    ProblemDialogComponent
   ],
   exports: [QuestionDialogComponent],
   // tslint:disable-next-line:max-line-length
-  entryComponents: [QuestionDialogComponent, EditCompetitiveDialogComponent, EditUserDialogComponent, QuestionDialogComponent, EditAddDialogComponent]
+  entryComponents: [
+    QuestionDialogComponent,
+    EditCompetitiveDialogComponent,
+    EditUserDialogComponent,
+    QuestionDialogComponent,
+    EditAddDialogComponent,
+    ProblemDialogComponent
+  ]
 })
 export class AdminModule {}

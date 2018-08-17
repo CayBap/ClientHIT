@@ -14,7 +14,7 @@ export class InterviewDialogComponent implements OnInit {
   config: AngularEditorConfig = {
     editable: true,
     spellcheck: true,
-    height: '20rem',
+    height: '19rem',
     minHeight: '5rem',
     placeholder: 'Enter text here...',
     translate: 'no',
