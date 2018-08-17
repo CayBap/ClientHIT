@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import 'hammerjs';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { MatterialModule } from './material/material.module';
@@ -8,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { APIModule } from './services/service.module';
 import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { MainModule } from './main/main.module';
 import { AdminModule } from './admin/admin.module';
 import { CommonModule } from '@angular/common';
@@ -35,3 +37,4 @@ import { InterViewDialogComponent } from './judge/judge.component';
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+platformBrowserDynamic().bootstrapModule(AppModule);

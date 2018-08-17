@@ -66,6 +66,7 @@ export class UserService {
       .catch(this.handleError);
   }
   public GetAdmins() {
+    this.headers.set('x-access-token', localStorage.getItem('token'));
     let url = this.heroesUrl + '/admin';
     return this.http
       .get(url, { headers: this.headers })
