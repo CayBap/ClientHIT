@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Jsonp } from '@angular/http';
+import { Headers, Http, Jsonp, } from '@angular/http';
 
 import 'rxjs';
 import { config } from '../config';
@@ -67,14 +67,22 @@ export class ProblemService {
       .catch(this.handleError);
   }
 
-  postFile(fileToUpload: File): Promise<any> {
+  postFile(fileToUpload: File,problemName:string): Promise<any> {
     let url = this.heroesUrl + '/submit';
+
     let formData: FormData = new FormData();
     formData.append('file', fileToUpload);
-    console.log(formData)
+    formData.append('problemName',problemName);
+
+    this.headers.delete('Content-Type');
+    let token = localStorage.getItem('token');
+    this.headers.set('x-access-token', token);
+    console.log(this.headers)
+
     return this.http
-      .post(url, formData, { headers: this.headers }).toPromise().then(res=>res.json())
-}
+      .post(url, formData, { headers: this.headers }).toPromise().then(res => res.json())
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
