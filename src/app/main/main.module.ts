@@ -6,8 +6,9 @@ import { MatterialModule } from '../material/material.module';
 import {CommonModule} from '@angular/common'
 @NgModule({
     imports: [ MatterialModule,CommonModule,RoutingMainModule],
-    declarations: [PlayComponent, MainComponent],
+    declarations: [PlayComponent, MainComponent,],
     exports: [],
     providers: [],
+    entryComponents:[]
 })
 export class MainModule { }

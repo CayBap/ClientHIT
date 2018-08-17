@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input ,Inject} from '@angular/core';
 import { PlayService } from '../../services/play.service';
 import { SocketService } from '../../socket';
-
+import { SubmitService } from '../../services/submit.service';
+import { ProblemService } from '../../services/problem.service';
 @Component({
     selector: 'app-play',
     templateUrl: './play.component.html',
@@ -22,10 +23,14 @@ export class PlayComponent implements OnInit {
     timeDis = {
         minute: 0,
         seconds: 0
-    }
+    };
+    updateRef;
+    selectedProblem ;
+    fileToUpload:File = null;
     @Input() socket: SocketService
     studentId;
-    constructor(private play: PlayService) { }
+
+    constructor(private play: PlayService,public proService:ProblemService) { }
 
     ngOnInit(): void {
         this.studentId = localStorage.getItem('studentId');
@@ -39,6 +44,7 @@ export class PlayComponent implements OnInit {
             }
         )
         this.play.GetQuestion(this.studentId).then(result => {
+          console.log(result)
             if (result.data.status == 0 || result.data.status == 1) {
                 this.fullPlay = result;
                 this.time = result.data.time;
@@ -46,6 +52,7 @@ export class PlayComponent implements OnInit {
                 this.selectedQuestion = result.data.history.questions[0];
                 this.listP = result.data.history.problems;
                 this.status = true;
+                // console.log(this.listP)
                 this.run();
             }
             else {
@@ -112,6 +119,12 @@ export class PlayComponent implements OnInit {
             this.selectedQuestion = this.listQ[++this.selectIndex];
         }
     }
+      //Chọn câu hỏi
+    onSelectProblem(problem, i) {
+        this.selectIndex = i;
+        this.selectedProblem = problem;
+        this.selectedQuestion = null;
+    }
     setButton() {
         if (this.selectIndex == 0) {
             return 1;
@@ -146,5 +159,17 @@ export class PlayComponent implements OnInit {
         })
 
     }
-
+    handleFileInput(files: FileList) {
+      // this.fileToUpload = files.item(0);
+      // this.proService.postFile(files.ite?m(0));
+      this.fileToUpload = files.item(0);
+      this.uploadFileToActivity();
+    }
+    uploadFileToActivity() {
+      this.proService.postFile(this.fileToUpload).then(data => {
+        }, error => {
+          console.log(error);
+        });
+    }
 }
+

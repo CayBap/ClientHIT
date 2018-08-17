@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { UserComponent } from './user/user.component';
 import {ExamineeComponent} from './examinee/examinee.component'
 import { QuestionComponent } from './question/question.component';
+import { ProblemComponent } from './problem/problem.component';
 const routes: Routes = [
     {
         path:'admin',component:AdminComponent,
@@ -11,8 +12,9 @@ const routes: Routes = [
             {path:'examinee',component:ExamineeComponent},
             {path:'user',component:UserComponent},
             {path:'question',component:QuestionComponent},
+            {path:'problem',component:ProblemComponent},
         ],
-       
+
     }
 ];
 @NgModule({

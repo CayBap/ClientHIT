@@ -34,9 +34,15 @@
             Lập trình căn bản
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <button class="questionnav" mat-raised-button color="warn">Câu số 1</button>
-        <button class="questionnav" mat-raised-button color="warn">Câu số 1</button>
-        <button class="questionnav" mat-raised-button color="warn">Câu số 1</button>
+        <ul class="heroes">
+            <li *ngFor="let pro of listP;let i = index"
+              [class.selected]="pro === selectedProblem"
+              [style.background-color]="pro.correct?'orange':''"
+              [style.color]="pro.correct?'white':''"
+              (click)="onSelectProblem(pro,i)">
+              <span class="badge">{{i+1}}</span> {{pro.problemId.title|slice:0:40}}
+            </li>
+          </ul>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
@@ -56,7 +62,7 @@
           <mat-card-content style="margin-left: 30px; margin-top: 30px">
             <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" >
-                <button class="ans" mat-raised-button color="warn" 
+                <button class="ans" mat-raised-button color="warn"
                 [style.background-color]="selectedQuestion.questionId.options[0].answer==selectedQuestion.answer?'orange':''"
                 (click) = "SelectAns($event);"
                 >{{selectedQuestion.questionId.options[0].answer}}</button>
@@ -79,7 +85,7 @@
           </mat-card-content>
           <mat-card-actions>
             <div class="row">
-    
+
               <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                   <div style="text-align: left;margin-left: 60px;">
                       <button [disabled]="setButton()===1" (click) = "Last();"  mat-raised-button color="warn">Trước</button>
@@ -95,8 +101,46 @@
                       <button [disabled]="setButton()===2" (click) = "Next();" mat-raised-button color="warn">Sau</button>
                   </div>
               </div>
-    
+
             </div>
+          </mat-card-actions>
+     </div>
+     <div *ngIf  = "selectedProblem">
+        <mat-card-header style="margin-top: 20px">
+            <mat-card style="width: 100%">
+              <h3 style="text-align: center;">{{selectedProblem.problemId.title}}</h3>
+            </mat-card>
+          </mat-card-header>
+          <mat-card-content style="margin-left: 30px; margin-top: 30px">
+            <div  style="  overflow: scroll;
+            height: 50vh;
+            overflow-x: hidden;" >
+              <div style="text-align: center;font-size: 10px;line-height: 10px">
+                <p>Time limited: {{selectedProblem.problemId.timeLimit}}</p>
+                <p>Memory limited: {{selectedProblem.problemId.memoryLimit}}</p>
+                <p>Ngôn ngữ cho phép: {{selectedProblem.problemId.language}}</p>
+                <p>Time limited: {{selectedProblem.problemId.sortName}}</p>
+                <!-- <button mat-raised-button color="warn"
+                (click)="onOpentSubmit()"
+                >Submit code</button> -->
+                <button  mat-raised-button color="warn" (click)="fileInput.click()">Submit code</button>
+                <input hidden type="file" #fileInput (change)="handleFileInput($event.target.files)">
+              </div>
+              <p>{{selectedProblem.problemId.content}}</p>
+              <strong>Dữ liệu:</strong>
+              <p>{{selectedProblem.problemId.input}}</p>
+              <strong>Kết quả:</strong>
+              <p>{{selectedProblem.problemId.output}}</p>
+              <strong>Ví dụ:</strong>
+              <p>Dữ liệu:</p>
+              {{selectedProblem.problemId.example.input}}
+              <p>Kết quả:</p>
+              {{selectedProblem.problemId.example.output}}
+
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+
           </mat-card-actions>
      </div>
     </mat-card>
