@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatPaginator } from '@angular/material';
 import { QuestionDialogComponent } from '../../question-dialog/question-dialog.component';
 import { ProblemService } from '../../services/problem.service';
 import { Router } from '@angular/router';
@@ -25,7 +25,8 @@ export class ProblemManagerComponent implements OnInit {
   pageIndex;
   currentPage = 1;
   currentLimit = 10;
-
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
   constructor(private queS: ProblemService, public dialog: MatDialog, public snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit() {
@@ -47,6 +48,7 @@ export class ProblemManagerComponent implements OnInit {
       this.data = result.data;
       console.log(this.data);
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
+      this.dataSource.paginator = this.paginator;
     });
   }
   GetIndexPage(event) {

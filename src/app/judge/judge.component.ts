@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SocketService } from '../socket/socket.service';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
-import { Sort, MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { Sort, MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatPaginator } from '@angular/material';
 import { InterviewDialogComponent } from './interview-dialog/interview-dialog.component';
 @Component({
   selector: 'app-judge',
@@ -26,6 +26,8 @@ export class JudgeComponent implements OnInit {
   pageIndex;
   currentPage = 1;
   currentLimit = 10;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
   // tslint:disable-next-line:max-line-length
   constructor(private socket: SocketService, private router: Router, private user: UserService, public dialog: MatDialog, public snackBar: MatSnackBar) {}
 
@@ -150,6 +152,7 @@ export class JudgeComponent implements OnInit {
       this.currentLimit = event.pageSize;
       this.data = result.data;
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
+      this.dataSource.paginator = this.paginator;
     });
   }
   CheckEx(play) {

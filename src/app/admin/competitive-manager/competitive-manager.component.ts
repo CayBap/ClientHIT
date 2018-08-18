@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatPaginator } from '@angular/material';
 import { UserService } from '../../services';
 import { QuestionDialogComponent } from '../../question-dialog/question-dialog.component';
 import { EditCompetitiveDialogComponent } from './edit-competitive-dialog/edit-competitive-dialog.component';
@@ -26,6 +26,8 @@ export class CompetitiveManagerComponent implements OnInit {
   pageIndex;
   currentPage = 1;
   currentLimit = 10;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
   constructor(private user: UserService, public dialog: MatDialog, public snackBar: MatSnackBar) {}
 
   ngOnInit() {
@@ -56,6 +58,7 @@ export class CompetitiveManagerComponent implements OnInit {
       this.data = result.data;
       console.log(this.data);
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
+      this.dataSource.paginator = this.paginator;
     });
   }
   GetIndexPage(event) {
