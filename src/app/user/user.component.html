@@ -23,16 +23,21 @@
     </div>
   </mat-toolbar>
   <div class="view-container">
-    <!-- <div *ngIf="this.startBtnClicked === false" class="start-btn">
-      <button (click)="startTest()" routerLink="/user/competitive" mat-button>Bắt đầu bài thi</button>
-    </div> -->
-    <!-- <div class="route"> -->
+    <div *ngIf="this.startBtnClicked === false" class="view ">
+      <div class="row justify-content-center">
+        <mat-card class="mt-5 col-xl-7 col-lg-10 col-md-10 col-10 text-center">
+          <h3>Chào mừng bạn đến với cuộc thi tuyển thành viên của CLB HIT</h3>
+          <button class="my-5" mat-stroked-button color=warn (click)="startTest()" routerLink="/user/competitive" mat-button>Bắt đầu bài thi</button>
+        </mat-card>
+      </div>
+    </div>
+
     <router-outlet></router-outlet>
 
   </div>
   <mat-toolbar class="footer-toolbar">
     <div style="width: 100%; color: white" class="footer-content">
-      <p class="mb-0 text-center">Power by Do Thang & Nguyen Thanh Trung
+      <p class="mb-0 text-center">Powered by Do Thang & Nguyen Thanh Trung
       </p>
     </div>
   </mat-toolbar>

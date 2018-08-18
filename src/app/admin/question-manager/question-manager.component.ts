@@ -29,6 +29,17 @@ export class QuestionManagerComponent implements OnInit {
     this.SetData(1, 10);
   }
 
+  // Style Function
+
+  getRowStyle(element) {
+    if (this.data.docs.indexOf(element) % 2 === 0) {
+      return 'rgba(0,0,0,.001)';
+    } else {
+      return 'rgba(0,0,0,.03)';
+    }
+  }
+
+  // End Style Function
   SetData(page, limit) {
     this.questionService.GetQuestions(page, limit).then(result => {
       this.data = result.data;
@@ -100,15 +111,11 @@ export class QuestionManagerComponent implements OnInit {
   Add() {
     let data = {
       content: '',
-      correctAnswer: '',
+      correctAnswer: null,
       isHaveOption: true,
       isHtml: false,
-      options: [
-        { numbering: 'a', answer: undefined },
-        { numbering: 'b', answer: undefined },
-        { numbering: 'b', answer: undefined },
-        { numbering: 'b', answer: undefined }
-      ],
+      // tslint:disable-next-line:max-line-length
+      options: [{ numbering: 'a', answer: '' }, { numbering: 'b', answer: '' }, { numbering: 'b', answer: '' }, { numbering: 'b', answer: '' }],
       score: 0
     };
 

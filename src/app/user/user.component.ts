@@ -12,7 +12,11 @@ export class UserComponent implements OnInit {
   startBtnClicked = false;
   constructor(private socket: SocketService, private router: Router, private play: PlayService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url === '/user/competitive') {
+      this.startBtnClicked = true;
+    }
+  }
   logOut() {
     const token = localStorage.getItem('token');
     if (token) {
