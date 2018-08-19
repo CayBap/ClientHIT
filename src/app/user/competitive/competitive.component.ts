@@ -10,6 +10,8 @@ import { ProblemService } from '../../services/problem.service';
   providers: [PlayService, SocketService, ProblemService]
 })
 export class CompetitiveComponent implements OnInit {
+  arrayInput = [];
+  arrayOutput = [];
   status = undefined;
   panelOpenState: boolean = true;
   listQ; //Danh sách câu hỏi
@@ -81,6 +83,9 @@ export class CompetitiveComponent implements OnInit {
       }
     }, 1000);
   }
+  // Style
+
+  ///
   //Chọn câu hỏi
   onSelect(quest, i) {
     this.selectIndex = i;
@@ -104,6 +109,7 @@ export class CompetitiveComponent implements OnInit {
     this.selectIndex = i;
     this.selectedProblem = problem;
     this.selectedQuestion = null;
+    console.log(this.selectedProblem);
   }
   setButton() {
     if (this.selectIndex == 0) {

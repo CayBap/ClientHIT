@@ -1,5 +1,6 @@
 .wrapper {
   height: 100%;
+  position: relative;
   .header-toolbar {
     color: white;
     background-color: #f26b38;
@@ -17,6 +18,10 @@
   }
   .view-container {
     height: calc(100% - 64px - 64px);
+    .view {
+      height: 100%;
+      position: relative;
+    }
     .example-sidenav {
       font-size: 12px !important;
       .mat-list-item:hover {

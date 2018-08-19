@@ -28,7 +28,7 @@ export class UserService {
     urlSearchParams.append('studentId', studentId);
     urlSearchParams.append('pass', pass);
     urlSearchParams.append('phone', phone);
-    urlSearchParams.append('birthDate', birthDate.toLocaleDateString());
+    urlSearchParams.append('birthDate', birthDate.toDateString());
     urlSearchParams.append('name', name);
     urlSearchParams.append('email', email);
 

@@ -58,13 +58,13 @@
 
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;let element"></tr>
+      <tr [style.background-color]="getRowStyle(element)" mat-row *matRowDef="let row; columns: displayedColumns;let element"></tr>
     </table>
     <!-- element.role=='admin'?{background-color:'green'}:{} -->
   </div>
   <div class="tool-box">
     <div class="btn">
-      <button class="mx-1 action" mat-mini-fab style="background-color: #f37735" (click)='Add(true)'>
+      <button class="mx-1 action" mat-mini-fab style="background-color: #f37735" (click)='Add()'>
         <mat-icon style="color: white">add</mat-icon>
       </button>
 
@@ -72,7 +72,7 @@
 
 
     <mat-paginator style=" float: right;" [pageSize]='10' [pageSizeOptions]="[5, 10, 20]" [length]="data.total" [pageIndex]='0'
-      (page)="pageEvent = GetIndexPage($event)" showFirstLastButtons></mat-paginator>
+      showFirstLastButtons></mat-paginator>
   </div>
 
 

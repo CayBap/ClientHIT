@@ -2,6 +2,14 @@
   height: 100%;
   padding: 1rem;
   background-color: #f4f4f8;
+  position: relative;
+  .finised {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+  }
 }
 #scollbar {
   overflow: auto;
@@ -122,11 +130,6 @@ div.mat-card-header-text {
         height: 100%;
         width: auto;
         // margin-bottom: 0;
-        // position: absolute;
-        // left: 50%;
-        // top: 50%;
-        // transform: translateX(-50%) translateY(-50%);
-        // -webkit-transform: translateX(-50%) translateY(-50%);
       }
       .mat-icon {
         height: auto;
@@ -146,6 +149,47 @@ div.mat-card-header-text {
         direction: ltr;
         /* -webkit-font-feature-settings: 'liga'; */
         -webkit-font-smoothing: antialiased;
+      }
+    }
+  }
+}
+.upload-btn {
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    /* -webkit-font-feature-settings: 'liga'; */
+    -webkit-font-smoothing: antialiased;
+  }
+}
+.content {
+  max-height: 250px;
+  overflow: auto;
+  p {
+    font-size: 18px;
+  }
+  .example {
+    width: 100%;
+
+    .table {
+      width: 100%;
+      table {
+        width: 100%;
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid black;
       }
     }
   }

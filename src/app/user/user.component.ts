@@ -12,18 +12,26 @@ export class UserComponent implements OnInit {
   startBtnClicked = false;
   constructor(private socket: SocketService, private router: Router, private play: PlayService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.router.url === '/user/competitive') {
+      this.startBtnClicked = true;
+    }
+  }
   logOut() {
     const token = localStorage.getItem('token');
     if (token) {
       if (this.socket) {
-        this.socket.disconnect();
-        this.socket.onDisconnect().subscribe(result => {});
+        console.log(this.socket)
+        // this.socket.disconnect();
+        this.socket.onDisconnect().subscribe(result => {
+          console.log(result)
+        });
       }
       localStorage.removeItem('token');
       this.router.navigate(['login']);
     }
   }
+
   startTest() {
     this.startBtnClicked = true;
   }

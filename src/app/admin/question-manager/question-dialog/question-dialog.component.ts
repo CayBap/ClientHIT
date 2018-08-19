@@ -14,4 +14,7 @@ export class EditAddDialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  selected($event) {
+    console.log(event);
+  }
 }

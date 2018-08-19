@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatPaginator } from '@angular/material';
 import { QuestionDialogComponent } from '../../question-dialog/question-dialog.component';
 import { QuestionService } from '../../services/quesion.service';
 import { Router } from '@angular/router';
@@ -19,20 +19,35 @@ export class QuestionManagerComponent implements OnInit {
     total: 10,
     docs: []
   };
-  pageEvent: PageEvent;
+  // pageEvent: PageEvent;
   pageIndex;
   currentPage = 1;
   currentLimit = 10;
+  @ViewChild(MatPaginator)
+  paginator: MatPaginator;
+
   constructor(private questionService: QuestionService, public dialog: MatDialog, public snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit() {
     this.SetData(1, 10);
   }
 
+  // Style Function
+
+  getRowStyle(element) {
+    if (this.data.docs.indexOf(element) % 2 === 0) {
+      return 'rgba(0,0,0,.001)';
+    } else {
+      return 'rgba(0,0,0,.03)';
+    }
+  }
+
+  // End Style Function
   SetData(page, limit) {
     this.questionService.GetQuestions(page, limit).then(result => {
       this.data = result.data;
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
+      this.dataSource.paginator = this.paginator;
     });
   }
   GetIndexPage(event) {
@@ -100,15 +115,11 @@ export class QuestionManagerComponent implements OnInit {
   Add() {
     let data = {
       content: '',
-      correctAnswer: '',
+      correctAnswer: null,
       isHaveOption: true,
       isHtml: false,
-      options: [
-        { numbering: 'a', answer: undefined },
-        { numbering: 'b', answer: undefined },
-        { numbering: 'b', answer: undefined },
-        { numbering: 'b', answer: undefined }
-      ],
+      // tslint:disable-next-line:max-line-length
+      options: [{ numbering: 'a', answer: '' }, { numbering: 'b', answer: '' }, { numbering: 'b', answer: '' }, { numbering: 'b', answer: '' }],
       score: 0
     };
 
