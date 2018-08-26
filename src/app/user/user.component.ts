@@ -19,12 +19,10 @@ export class UserComponent implements OnInit {
   }
   logOut() {
     const token = localStorage.getItem('token');
+
     if (token) {
       if (this.socket) {
-        console.log(this.socket)
-        // this.socket.disconnect();
         this.socket.onDisconnect().subscribe(result => {
-          console.log(result)
         });
       }
       localStorage.removeItem('token');

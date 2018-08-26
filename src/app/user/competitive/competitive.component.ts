@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject,ViewChild } from '@angular/core';
 import { PlayService } from '../../services/play.service';
 import { SocketService } from '../../socket/socket.service';
-import { SubmitService } from '../../services/submit.service';
 import { ProblemService } from '../../services/problem.service';
+import {MatSnackBar} from '@angular/material';
 @Component({
   selector: 'app-competitive',
   templateUrl: './competitive.component.html',
@@ -10,6 +10,7 @@ import { ProblemService } from '../../services/problem.service';
   providers: [PlayService, SocketService, ProblemService]
 })
 export class CompetitiveComponent implements OnInit {
+  @ViewChild('fileInput')myInputVariable;
   arrayInput = [];
   arrayOutput = [];
   status = undefined;
@@ -31,7 +32,8 @@ export class CompetitiveComponent implements OnInit {
   selectedProblem;
   fileToUpload: File = null;
   studentId;
-  constructor(private play: PlayService, public proService: ProblemService, public socket: SocketService) {}
+  loading = false;
+  constructor(private play: PlayService, public proService: ProblemService, public socket: SocketService,private snackbar:MatSnackBar) {}
 
   ngOnInit() {
     const token = localStorage.getItem('token');
@@ -141,18 +143,35 @@ export class CompetitiveComponent implements OnInit {
       }
     });
   }
+
   handleFileInput(files: FileList) {
-    // this.fileToUpload = files.item(0);
-    // this.proService.postFile(files.ite?m(0));
     this.fileToUpload = files.item(0);
+    this.myInputVariable.nativeElement.value = '';
+
     this.uploadFileToActivity();
+
   }
   uploadFileToActivity() {
-    this.proService.postFile(this.fileToUpload).then(
-      data => {},
-      error => {
-        console.log(error);
+    this.loading = true;
+    this.proService.postFile(this.fileToUpload, this.selectedProblem.problemId.sortName).then(result => {
+
+      if (result.status == '200') {
+        this.listP = result.data;
+        if(result.correct==true){
+          this.openSnackBar('Chúc mừng bạn đã làm chính xác','Đóng');
+        }else{
+          this.openSnackBar('Bạn đã làm sai','Đóng');
+        }
+      }else{
+        this.openSnackBar('Lỗi biên dịch ','Đóng');
       }
-    );
+      this.fileToUpload = null;
+      this.loading = false;
+    })
+  }
+  openSnackBar(message: string, action: string) {
+    this.snackbar.open(message, action, {
+      duration: 4000
+    });
   }
 }

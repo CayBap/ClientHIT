@@ -1,4 +1,9 @@
-<div class="wrapper">
+
+<div class="wrapper" [ngClass]="{'loading':loading === true}">
+    <div class="loading-indicator">
+        <!-- <mat-progress-spinner mode="indeterminate" color="accent"></mat-progress-spinner> -->
+        <mat-progress-spinner mode="indeterminate" color="accent"  *ngIf = 'loading'></mat-progress-spinner>
+      </div>
   <div *ngIf="status === false" class="mt-5 row justify-content-center">
     <mat-card class="col-xl-7 col-lg-10 col-md-10 col-10 text-center">
       <h3>Bạn đã hoàn thành xong phần thi của mình. Cảm ơn bạn đã tham gia thi tuyển thành viên của câu lạc bộ Tin học HIT</h3>
@@ -44,7 +49,7 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
-    <div class="col-xs-3 col-sm-3 col-md-7 col-lg-8 col-xl-8 test-view">
+    <div class="col-xs-3 col-sm-3 col-md-7 col-lg-9 col-xl-9 test-view">
       <mat-card style="height: 100%;">
         <div class="timer-container row justify-content-center">
           <div class="col-4 col-xl-4">
@@ -181,3 +186,5 @@
 
   </div>
 </div>
+
+

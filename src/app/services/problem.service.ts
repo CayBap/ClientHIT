@@ -71,25 +71,40 @@ export class ProblemService {
       .catch(this.handleError);
   }
 
-  postFile(fileToUpload: File): Promise<any> {
+  // postFile(fileToUpload: File): Promise<any> {
+  //   let url = this.heroesUrl + '/submit';
+  //   console.log(fileToUpload);
+
+  //   let formData = new FormData();
+  //   console.log(formData);
+  //   formData.append('file', fileToUpload, 'test.cpp');
+  //   const options = {
+  //     data: { file: formData }
+  //   };
+
+  //   console.log(formData.get('file'));
+  //   // for (var j = 0; j < fileToUpload.length; j++) {
+  //   //   formData.append('file[]', files[j], files[j].name);
+  //   this.headers.delete('Content-Type');
+  //   return this.http
+  //     .post(url, formData, { headers: this.headers })
+  //     .toPromise()
+  //     .then(res => res.json());
+  // }
+  postFile(fileToUpload: File,problemName:string): Promise<any> {
     let url = this.heroesUrl + '/submit';
-    console.log(fileToUpload);
 
-    let formData = new FormData();
-    console.log(formData);
-    formData.append('file', fileToUpload, 'test.cpp');
-    const options = {
-      data: { file: formData }
-    };
+    let formData: FormData = new FormData();
+    formData.append('file', fileToUpload);
+    formData.append('problemName',problemName);
 
-    console.log(formData.get('file'));
-    // for (var j = 0; j < fileToUpload.length; j++) {
-    //   formData.append('file[]', files[j], files[j].name);
     this.headers.delete('Content-Type');
+    let token = localStorage.getItem('token');
+    this.headers.set('x-access-token', token);
+    console.log(this.headers)
+
     return this.http
-      .post(url, formData, { headers: this.headers })
-      .toPromise()
-      .then(res => res.json());
+      .post(url, formData, { headers: this.headers }).toPromise().then(res => res.json())
   }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);

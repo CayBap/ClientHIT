@@ -16,6 +16,8 @@ export class SocketService {
       }
     );
   }
+
+
   // Interview
   startInterview(studentId) {
     this.socket.emit('interview', { studentId: studentId, command: 1000 });
@@ -80,4 +82,5 @@ export class SocketService {
   disconnect() {
     this.socket.disconnect();
   }
+
 }

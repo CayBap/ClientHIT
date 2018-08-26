@@ -44,6 +44,7 @@ export class QuestionManagerComponent implements OnInit {
 
   // End Style Function
   SetData(page, limit) {
+    console.log(page)
     this.questionService.GetQuestions(page, limit).then(result => {
       this.data = result.data;
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
