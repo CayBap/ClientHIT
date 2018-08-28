@@ -3,38 +3,26 @@
     <table mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="position">
-        <th class="thhead" mat-header-cell *matHeaderCellDef> STT </th>
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width:50px"> STT </th>
         <td class="tdh" mat-cell *matCellDef="let element;let i = index">{{i+1}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="content">
+      <ng-container matColumnDef="name">
         <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 25%;"> Nội dung </th>
-        <td class="tdh" mat-cell *matCellDef="let element"> {{element.content}} </td>
+        <td class="tdh" mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="A">
-        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> A </th>
-        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.options[0].answer==element.correctAnswer?'red':''">
-          {{element.options[0].answer}} </td>
+      <ng-container matColumnDef="usingQuestion">
+        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;">Số câu sử dụng </th>
+        <td class="tdh" mat-cell *matCellDef="let element" >
+          {{element.usingQuestion}} </td>
+      </ng-container>
+      <ng-container matColumnDef="questions">
+        <th class="thhead" mat-header-cell *matHeaderCellDef>Tổng số câu </th>
+        <td class="tdh" mat-cell *matCellDef="let element" >
+          {{countQuestion(element.questions)}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="B">
-        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> B </th>
-        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.options[1].answer==element.correctAnswer?'red':''">
-          {{element.options[1].answer}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="C">
-        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> C </th>
-        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.options[2].answer==element.correctAnswer?'red':''">
-          {{element.options[2].answer}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="D">
-        <th class="thhead" mat-header-cell *matHeaderCellDef style="width: 14%;"> D </th>
-        <td class="tdh" mat-cell *matCellDef="let element" [style.color]="element.options[3].answer==element.correctAnswer?'red':''">
-          {{element.options[3].answer}} </td>
-      </ng-container>
       <ng-container cdkColumnDef="action">
         <th class="thhead" mat-header-cell *matHeaderCellDef>
           Action

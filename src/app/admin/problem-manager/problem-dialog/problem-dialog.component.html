@@ -44,6 +44,16 @@
         <textarea matInput placeholder="Output text" cols="10" rows="5" [(ngModel)]='data.output'></textarea>
       </mat-form-field>
     </div>
+    <div class="col-6">
+      <mat-form-field>
+        <textarea matInput placeholder="Input example" cols="10" rows="5" [(ngModel)]='data.example.input'></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field>
+        <textarea matInput placeholder="Output example" cols="10" rows="5" [(ngModel)]='data.example.output'></textarea>
+      </mat-form-field>
+    </div>
     <div class="col-12">
       <mat-radio-group [(ngModel)]="data.level">
         <div class="row">

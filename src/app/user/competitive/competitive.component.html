@@ -159,8 +159,8 @@
                       <th class=" text-center" style="width: 50%;">Output</th>
                     </tr>
                     <tr>
-                      <td style="width: 50%;">{{selectedProblem.problemId.example.input}}</td>
-                      <td style="width: 50%;">{{selectedProblem.problemId.example.output}}</td>
+                      <td style="width: 50%;" [innerHTML]="selectedProblem.problemId.example.input"></td>
+                      <td style="width: 50%;" [innerHTML]="selectedProblem.problemId.example.output"></td>
                     </tr>
                   </table>
 

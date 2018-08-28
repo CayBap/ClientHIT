@@ -121,8 +121,8 @@ export class ProblemManagerComponent implements OnInit {
       input: '',
       output: '',
       example: {
-        inputEx: '',
-        outputEx: ''
+        input: '',
+        output: ''
       },
       correctScore: '',
       level: 3,

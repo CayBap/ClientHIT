@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatTableDataSource, PageEvent, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatPaginator } from '@angular/material';
 import { QuestionDialogComponent } from '../../question-dialog/question-dialog.component';
-import { QuestionService } from '../../services/quesion.service';
 import { Router } from '@angular/router';
-import { EditAddDialogComponent } from './question-dialog/question-dialog.component';
+import { EditAddQuestionListDialogComponent } from './question-dialog/question-list-dialog.component';
+import { QuestionListService } from '../../services/question-list.service';
 @Component({
-  selector: 'app-question-manager',
-  templateUrl: './question-manager.component.html',
-  styleUrls: ['./question-manager.component.scss']
+  selector: 'app-question-list-manager',
+  templateUrl: './question-list-manager.component.html',
+  styleUrls: ['./question-list-manager.component.scss']
 })
-export class QuestionManagerComponent implements OnInit {
-  displayedColumns = ['position', 'content', 'A', 'B', 'C', 'D', 'action'];
+export class QuestionListManagerComponent implements OnInit {
+  displayedColumns = ['position', 'name', 'usingQuestion','questions',  'action'];
   // dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
   dataSource;
   count = 0;
@@ -26,7 +26,7 @@ export class QuestionManagerComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
 
-  constructor(private questionService: QuestionService, public dialog: MatDialog, public snackBar: MatSnackBar, private router: Router) {}
+  constructor(private questionService: QuestionListService, public dialog: MatDialog, public snackBar: MatSnackBar, private router: Router) {}
 
   ngOnInit() {
     this.SetData(1, 10);
@@ -45,6 +45,7 @@ export class QuestionManagerComponent implements OnInit {
   // End Style Function
   SetData(page, limit) {
     this.questionService.GetQuestions(page, limit).then(result => {
+      console.log(result)
       this.data = result.data;
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
       this.dataSource.paginator = this.paginator;
@@ -93,7 +94,7 @@ export class QuestionManagerComponent implements OnInit {
       .GetQuestionById(id)
       .then(data => {
         if (data.code == 1) {
-          this.updateRef = this.dialog.open(EditAddDialogComponent, {
+          this.updateRef = this.dialog.open(EditAddQuestionListDialogComponent, {
             width: '500px',
             data: data.data
           });
@@ -122,7 +123,7 @@ export class QuestionManagerComponent implements OnInit {
       score: 0
     };
 
-    this.updateRef = this.dialog.open(EditAddDialogComponent, {
+    this.updateRef = this.dialog.open(EditAddQuestionListDialogComponent, {
       width: '500px',
       data: data
     });
@@ -137,6 +138,10 @@ export class QuestionManagerComponent implements OnInit {
           this.openSnackBar('Thêm câu hỏi thất bại ', 'Đóng');
         });
     });
+  }
+  countQuestion(questions){
+
+    return questions.length;
   }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {

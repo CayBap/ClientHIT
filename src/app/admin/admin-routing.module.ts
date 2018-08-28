@@ -5,6 +5,7 @@ import { CompetitiveManagerComponent } from './competitive-manager/competitive-m
 import { QuestionManagerComponent } from './question-manager/question-manager.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
 import { ProblemManagerComponent } from './problem-manager/problem-manager.component';
+import { QuestionListManagerComponent } from './question-list-manager.ts/question-list-manager.component';
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +14,8 @@ const routes: Routes = [
       { path: 'question-manager', component: QuestionManagerComponent },
       { path: 'competitive-manager', component: CompetitiveManagerComponent },
       { path: 'user-manager', component: UserManagerComponent },
-      { path: 'problem-manager', component: ProblemManagerComponent }
+      { path: 'problem-manager', component: ProblemManagerComponent },
+      { path: 'question-list-manager', component: QuestionListManagerComponent }
     ]
   }
 ];
