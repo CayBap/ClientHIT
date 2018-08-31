@@ -1,50 +1,32 @@
 <h1 style="text-align: center" mat-dialog-title>{{data._id ? 'Cập nhật câu hỏi' : 'Thêm câu hỏi'}}</h1>
 <div mat-dialog-content>
   <div class="row">
-    <div class="col-12">
-      <mat-form-field>
-        <input matInput placeholder="Nội dung" [(ngModel)]='data.content'>
-      </mat-form-field>
-    </div>
-    <div class=" col-6">
-      <mat-form-field>
-        <input matInput placeholder="Đáp án A" [(ngModel)]='data.options[0].answer'>
-      </mat-form-field>
-    </div>
-    <div class=" col-6">
-      <mat-form-field>
-        <input matInput placeholder="Đáp án B" [(ngModel)]='data.options[1].answer'>
-      </mat-form-field>
-    </div>
-    <div class=" col-6">
-      <mat-form-field>
-        <input matInput placeholder="Đáp án C" [(ngModel)]='data.options[2].answer'>
-      </mat-form-field>
-    </div>
-    <div class=" col-6">
-      <mat-form-field>
-        <input matInput placeholder="Đáp ấn D" [(ngModel)]='data.options[3].answer'>
-      </mat-form-field>
-    </div>
     <div class="col-6">
-      <mat-form-field *ngIf="data.options[0].answer !== ''">
-        <mat-select [(ngModel)]='data.correctAnswer' placeholder="Đáp án đúng">
+      <mat-form-field>
+        <input matInput placeholder="Tên gói" [(ngModel)]='this.data.quesitonList.name'>
+      </mat-form-field>
+    </div>
+    <div class=" col-6">
+      <mat-form-field>
+        <input matInput placeholder="Số câu sử dụng" [(ngModel)]='this.data.quesitonList.usingQuestion'>
+      </mat-form-field>
+    </div>
 
-          <mat-option [value]='data.options[0].answer'>{{data.options[0].answer}}</mat-option>
-          <mat-option [value]='data.options[1].answer'>{{data.options[1].answer}}</mat-option>
-          <mat-option [value]='data.options[2].answer'>{{data.options[2].answer}}</mat-option>
-          <mat-option [value]='data.options[3].answer'>{{data.options[3].answer}}</mat-option>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <mat-form-field>
+        <mat-select placeholder="Toppings" [formControl]="toppings" multiple>
+          <mat-select-trigger>
+            {{toppings.value ? toppings.value[0] : ''}}
+            <span *ngIf="toppings.value?.length > 1" class="example-additional-selection">
+              (+{{toppings.value.length - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let question of this.data.questions" [value]="question._id">{{question.content}}</mat-option>
         </mat-select>
       </mat-form-field>
+
     </div>
-    <div class="col-4 offset-1">
-      <mat-form-field style="color: red" appearance="outline">
-        <mat-label>
-          Điểm số
-        </mat-label>
-        <input matInput placeholder="Điểm số" type="text" [(ngModel)]='data.score' type="number">
-      </mat-form-field>
-    </div>
+
 
   </div>
 
@@ -55,7 +37,7 @@
   <div style="width: 100% " class="btns">
 
     <div class="float-right">
-      <button style="background-color:  #7bc043;color: white" mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data._id ? 'Cập nhật' : 'Thêm mới'}}</button>
+      <button (click)='selected();'  style="background-color:  #7bc043;color: white" mat-button [mat-dialog-close]="data" cdkFocusInitial>{{data.quesitonList._id ? 'Cập nhật' : 'Thêm mới'}}</button>
     </div>
     <div class="float-left">
       <button style="background-color: #f26b38;color: white" mat-button (click)="onNoClick()">Đóng</button>

@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, Jsonp } from '@angular/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import 'rxjs';
 import { config } from '../config';
 
 @Injectable()
 export class QuestionListService {
-  private headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+  private headers = new Headers({ 'Content-Type': 'application/json' });
   private heroesUrl = config.Url + '/api/questionlist';
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, private httpClient: HttpClient) { }
   public checkLogin(token: string): Promise<any> {
     var url = this.heroesUrl + '/check';
 
@@ -22,36 +23,26 @@ export class QuestionListService {
   }
 
   public Update(data): Promise<any> {
-    let Url = this.heroesUrl + '/' + data._id;
-    let urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('content', data.content);
-    urlSearchParams.append('image', data.image);
-    urlSearchParams.append('video', data.video);
-    urlSearchParams.append('isHtml', data.isHtml);
-    urlSearchParams.append('correctAnswer', data.correctAnswer);
-    urlSearchParams.append('score', data.score);
-    urlSearchParams.append('answered1', data.options[0].answer);
-    urlSearchParams.append('answered2', data.options[1].answer);
-    urlSearchParams.append('answered3', data.options[2].answer);
-    urlSearchParams.append('answered4', data.options[3].answer);
+    let Url = this.heroesUrl + '/' + data.quesitonList._id;
+    let lq = {
+      questionList: data.quesitonList,
+      questions: data.selectQuestion
+    };
+    console.log(lq)
     return this.http
-      .put(Url, urlSearchParams.toString(), { headers: this.headers })
+      .put(Url, lq, { headers: this.headers })
       .toPromise()
       .then(res => res.json())
       .catch(this.handleError);
   }
   public Add(data): Promise<any> {
     let Url = this.heroesUrl;
-    let urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('content', data.content);
-    urlSearchParams.append('correctAnswer', data.correctAnswer);
-    urlSearchParams.append('score', data.score);
-    urlSearchParams.append('answered1', data.options[0].answer);
-    urlSearchParams.append('answered2', data.options[1].answer);
-    urlSearchParams.append('answered3', data.options[2].answer);
-    urlSearchParams.append('answered4', data.options[3].answer);
+    let lq = JSON.stringify({
+      questionList: data.quesitonList,
+      questions: data.selectQuestion
+    });
     return this.http
-      .post(Url, urlSearchParams.toString(), { headers: this.headers })
+      .post(Url, lq, { headers: this.headers })
       .toPromise()
       .then(res => res.json())
       .catch(this.handleError);

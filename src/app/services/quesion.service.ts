@@ -66,6 +66,15 @@ export class QuestionService {
       .then(res => res.json())
       .catch(this.handleError);
   }
+  public GetAlltQuestions() {
+    this.headers.set('x-access-token', localStorage.getItem('token'));
+    let url = this.heroesUrl + '/all';
+    return this.http
+      .get(url, { headers: this.headers })
+      .toPromise()
+      .then(res => res.json())
+      .catch(this.handleError);
+  }
   public GetQuestionById(id: string) {
     let url = this.heroesUrl + '/' + id;
     return this.http

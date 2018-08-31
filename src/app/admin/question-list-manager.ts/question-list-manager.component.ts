@@ -4,6 +4,8 @@ import { QuestionDialogComponent } from '../../question-dialog/question-dialog.c
 import { Router } from '@angular/router';
 import { EditAddQuestionListDialogComponent } from './question-dialog/question-list-dialog.component';
 import { QuestionListService } from '../../services/question-list.service';
+import { async } from 'rxjs/internal/scheduler/async';
+import { QuestionService } from '../../services/quesion.service';
 @Component({
   selector: 'app-question-list-manager',
   templateUrl: './question-list-manager.component.html',
@@ -26,7 +28,7 @@ export class QuestionListManagerComponent implements OnInit {
   @ViewChild(MatPaginator)
   paginator: MatPaginator;
 
-  constructor(private questionService: QuestionListService, public dialog: MatDialog, public snackBar: MatSnackBar, private router: Router) {}
+  constructor(private questionListService: QuestionListService, public dialog: MatDialog, public snackBar: MatSnackBar, private router: Router,private questionService:QuestionService) {}
 
   ngOnInit() {
     this.SetData(1, 10);
@@ -44,7 +46,7 @@ export class QuestionListManagerComponent implements OnInit {
 
   // End Style Function
   SetData(page, limit) {
-    this.questionService.GetQuestions(page, limit).then(result => {
+    this.questionListService.GetQuestions(page, limit).then(result => {
       console.log(result)
       this.data = result.data;
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
@@ -52,7 +54,7 @@ export class QuestionListManagerComponent implements OnInit {
     });
   }
   GetIndexPage(event) {
-    this.questionService.GetQuestions(event.pageIndex + 1, event.pageSize).then(result => {
+    this.questionListService.GetQuestions(event.pageIndex + 1, event.pageSize).then(result => {
       this.currentPage = event.pageIndex + 1;
       this.currentLimit = event.pageSize;
       this.data = result.data;
@@ -74,7 +76,7 @@ export class QuestionListManagerComponent implements OnInit {
     if (comand == 'delete') {
       this.openDialog('Thông báo', 'Bạn có muốn xóa câu hỏi này?', studentId, result => {
         if (result == true) {
-          this.questionService
+          this.questionListService
             .DeleteQuestion(studentId)
             .then(resultDelete => {
               if (resultDelete.code == 1) {
@@ -90,16 +92,19 @@ export class QuestionListManagerComponent implements OnInit {
     }
   }
   Update(id: string) {
-    this.questionService
+    this.questionListService
       .GetQuestionById(id)
-      .then(data => {
+      .then(async data => {
         if (data.code == 1) {
+            data = data.data;
+            data.selectQuestion = [];
           this.updateRef = this.dialog.open(EditAddQuestionListDialogComponent, {
             width: '500px',
-            data: data.data
+            data
           });
           this.updateRef.afterClosed().subscribe(result => {
-            this.questionService.Update(result).then(re => {
+            console.log(result)
+            this.questionListService.Update(result).then(re => {
               this.SetData(this.currentPage, this.currentLimit);
               this.openSnackBar('Cập nhập câu hỏi thành công ', 'Đóng');
             });
@@ -112,23 +117,22 @@ export class QuestionListManagerComponent implements OnInit {
         this.openSnackBar('Không tìm thấy câu hỏi', 'Đóng');
       });
   }
-  Add() {
+  async Add() {
+    let questions = await this.questionService.GetAlltQuestions();
     let data = {
-      content: '',
-      correctAnswer: null,
-      isHaveOption: true,
-      isHtml: false,
-      // tslint:disable-next-line:max-line-length
-      options: [{ numbering: 'a', answer: '' }, { numbering: 'b', answer: '' }, { numbering: 'b', answer: '' }, { numbering: 'b', answer: '' }],
-      score: 0
-    };
-
+      quesitonList:{
+          name:'',
+          usingQuestion:0
+        },
+        questions:questions.data,
+        selectQuestion:[]
+    }
     this.updateRef = this.dialog.open(EditAddQuestionListDialogComponent, {
       width: '500px',
-      data: data
+      data:data
     });
     this.updateRef.afterClosed().subscribe(result => {
-      this.questionService
+      this.questionListService
         .Add(result)
         .then(re => {
           this.SetData(this.currentPage, this.currentLimit);
