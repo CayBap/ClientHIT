@@ -26,7 +26,6 @@ export class SocketService {
     this.socket.emit('interview', { studentId: studentId, command: 1, interviewResult: interviewResult });
   }
   cancelInterview(studentId, interviewResult) {
-    console.log('here');
     this.socket.emit('interview', { studentId: studentId, command: 0, interviewResult: interviewResult });
   }
   onUpdateInterview(): Observable<any> {

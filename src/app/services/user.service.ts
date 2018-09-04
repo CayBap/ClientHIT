@@ -84,6 +84,16 @@ export class UserService {
       .then(res => res.json())
       .catch(this.handleError);
   }
+  public GetInter(page: number, limit: number, bol) {
+    this.headers.set('x-access-token', localStorage.getItem('token'));
+    let url = this.heroesUrl + '/inter/?page=' + page + '&limit=' + limit + '&filter=' + bol;
+
+    return this.http
+      .get(url, { headers: this.headers })
+      .toPromise()
+      .then(res => res.json())
+      .catch(this.handleError);
+  }
   public GetUserById(studentId: string) {
     let url = this.heroesUrl + '/' + studentId;
     return this.http

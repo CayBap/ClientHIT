@@ -10,7 +10,7 @@ import { InterviewDialogComponent } from './interview-dialog/interview-dialog.co
   styleUrls: ['./judge.component.scss']
 })
 export class JudgeComponent implements OnInit {
-  displayedColumns = ['position', 'name', 'studentId', 'birthDate', 'interviewScore', 'avgScore', 'phone', 'action'];
+  displayedColumns = ['position', 'name', 'studentId', 'birthDate', 'interviewScore', 'phone', 'action'];
   dataSource;
   count = 0;
   updateRef;
@@ -34,10 +34,11 @@ export class JudgeComponent implements OnInit {
   ngOnInit() {
     this.SetData(1, 10);
     this.socket.onUpdateInterview().subscribe(result => {
-      console.log(result);
-      console.log(this.data.docs.findIndex(d => d.studentId === result.studentId));
+      console.log(result)
+      // console.log(this.data.docs.findIndex(d => d.studentId === result.studentId));
       if (result.command === 1000) {
         this.data.docs[this.data.docs.findIndex(d => d.studentId === result.studentId)].playId.isInterviewing = true;
+
       }
       if (result.command === 1001) {
         this.data.docs[this.data.docs.findIndex(d => d.studentId === result.studentId)].playId.isInterviewing = false;
@@ -45,9 +46,13 @@ export class JudgeComponent implements OnInit {
       if (result.command === 1002) {
         this.data.docs[this.data.docs.findIndex(d => d.studentId === result.studentId)].playId.interviewScore = result.score;
       }
+      if(result.command==1){
+        this.SetData(this.currentPage,this.currentLimit);
+      }
       this.dataSource = new MatTableDataSource<Object>(this.data.docs);
     });
   }
+
   // STYLE FUNCTION
 
   getRowStyle(element) {
@@ -58,7 +63,7 @@ export class JudgeComponent implements OnInit {
     }
   }
   getAvgScore(playId) {
-    return (playId.totalScore + playId.interviewScore) / 2;
+    return (playId.totalScore + playId.interviewScore);
   }
   getInterviewBtnStyle(element) {
     if (!element.playId) {
@@ -66,16 +71,13 @@ export class JudgeComponent implements OnInit {
       return '#3b7dd8';
     }
     if (element.playId) {
-      if (element.playId.isInterviewing === true) {
-        if (element.playId.interviewScore !== 0) {
-          // đã thi đã phỏng vấn
-          return '#ee4035';
-        } else {
-          // đã thi - đang phỏng vấn
-          return '#ffc425';
-        }
-      } else {
-        // đã thi chưa phỏng vấn
+      if (element.playId.isInterviewing === 0) {
+        return '#ee4035';
+      }
+      if(element.playId.isInterviewing==1){
+        return '#ffc425';
+      }
+      if(element.playId.isInterviewing==2){
         return '#7bc043';
       }
     }
@@ -86,17 +88,14 @@ export class JudgeComponent implements OnInit {
       return 'Chưa thi';
     }
     if (element.playId) {
-      if (element.playId.isInterviewing === true) {
-        if (element.playId.interviewScore !== 0) {
-          // đã thi đã phỏng vấn
-          return 'Đã phỏng vấn';
-        } else {
-          // đã thi - đang phỏng vấn
-          return 'Đang phỏng vấn';
-        }
-      } else {
-        // đã thi chưa phỏng vấn
-        return 'Chưa phỏng vấn';
+      if (element.playId.isInterviewing === 0) {
+        return "Chưa phỏng vấn";
+      }
+      if(element.playId.isInterviewing==1){
+        return "Đang phỏng vấn";
+      }
+      if(element.playId.isInterviewing==2){
+        return "Đã phỏng vấn";
       }
     }
   }
@@ -121,7 +120,7 @@ export class JudgeComponent implements OnInit {
   //   }
   // }
   canInterview(element) {
-    if (element.playId && element.playId.isInterviewing === false) {
+    if (element.playId && element.playId.isInterviewing === 0) {
       return true;
     } else {
       return false;
@@ -140,14 +139,13 @@ export class JudgeComponent implements OnInit {
     }
   }
   SetData(page, limit) {
-    this.user.GetUsers(page, limit, undefined).then(result => {
+    this.user.GetInter(page, limit, undefined).then(result => {
       this.data = result.data;
-      console.log(this.data);
       this.dataSource = new MatTableDataSource<Object>(result.data.docs);
     });
   }
   GetIndexPage(event) {
-    this.user.GetUsers(event.pageIndex + 1, event.pageSize, undefined).then(result => {
+    this.user.GetInter(event.pageIndex + 1, event.pageSize, undefined).then(result => {
       this.currentPage = event.pageIndex + 1;
       this.currentLimit = event.pageSize;
       this.data = result.data;
@@ -155,6 +153,7 @@ export class JudgeComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
+
   CheckEx(play) {
     if (play.status == 1) {
       return 'Đang thi';
@@ -188,16 +187,18 @@ export class JudgeComponent implements OnInit {
         this.socket.finishInterview(element.studentId, interviewData);
         const index = this.data.docs.findIndex(d => d.studentId === element.studentId);
         this.data.docs[index].playId.interviewScore = interviewData.score;
-        this.data.docs[index].playId.isInterviewing = true;
+        this.data.docs[index].playId.isInterviewing = 1;
       } else {
         this.socket.cancelInterview(element.studentId, interviewData);
-        this.data.docs[this.data.docs.findIndex(d => d.studentId === element.studentId)].playId.isInterviewing = false;
+        const index = this.data.docs.findIndex(d => d.studentId === element.studentId);
+        this.data.docs[index].playId.interviewScore = interviewData.score;
+        this.data.docs[index].playId.isInterviewing = 0;
+
       }
       this.dataSource = new MatTableDataSource<Object>(this.data.docs);
     });
   }
   compare(a, b, isAsc) {
-    console.log(a, b);
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   sortData(sort: Sort) {
@@ -227,7 +228,6 @@ export class JudgeComponent implements OnInit {
             }
 
             case 'interviewScore': {
-              console.log('interview');
               return this.compare(a.playId.interviewScore, b.playId.interviewScore, isAsc);
             }
 

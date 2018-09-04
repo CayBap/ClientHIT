@@ -43,7 +43,7 @@
           </ng-container>
 
           <ng-container matColumnDef="birthDate">
-            <th style="width: 100px" class="thhead" mat-sort-header="testScore" mat-header-cell *matHeaderCellDef> Điểm thi </th>
+            <th style="width: 100px" class="thhead" mat-sort-header="testScore" mat-header-cell *matHeaderCellDef> Tổng điểm </th>
             <td style="width: 100px" class="tdh" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''">
               {{element.playId?element.playId.totalScore:0}} </td>
           </ng-container>
@@ -52,11 +52,11 @@
             <td class="tdh" style="width: 100px" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''">
               {{element.playId?element.playId.interviewScore:0}} </td>
           </ng-container>
-          <ng-container matColumnDef="avgScore">
-            <th class="thhead" style="width: 100px" mat-sort-header="avgScore" mat-header-cell *matHeaderCellDef> Điểm trung bình </th>
+          <!-- <ng-container matColumnDef="avgScore">
+            <th class="thhead" style="width: 100px" mat-sort-header="avgScore" mat-header-cell *matHeaderCellDef> Tổng điểm </th>
             <td class="tdh" style="width: 100px" mat-cell *matCellDef="let element" [style.color]="element.role=='admin'?'white':''">
-              {{element.playId?getAvgScore(element.playId):0}} </td>
-          </ng-container>
+              {{element.playId?element.playId.totalScore}} </td>
+          </ng-container> -->
           <ng-container matColumnDef="phone">
             <th class="thhead" mat-sort-header="status" mat-header-cell *matHeaderCellDef> Tình trạng </th>
             <td class="tdh" mat-cell *matCellDef="let element" [style.color]="getInterviewBtnStyle(element)"> {{getStatusText(element)}} </td>

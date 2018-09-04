@@ -41,7 +41,6 @@ export class InterviewDialogComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<InterviewDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit() {
-    console.log(this.data);
   }
   changeJudgeName($event) {
     this.data.judgeName = $event;
